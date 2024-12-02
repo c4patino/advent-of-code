@@ -1,8 +1,8 @@
-package main;
+package main
 
 import (
-	"os"
 	"flag"
+	"os"
 )
 
 func main() {
