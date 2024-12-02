@@ -1,0 +1,32 @@
+name: gofmt + zls
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*.*.*"]
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: ["*"]
+  workflow_dispatch:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup go
+        uses: actions/setup-go@v5
+      - name: Format all go files
+        run: (cd ./2024/go/ && go fmt ./...)
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
+        with:
+          commit_message: |
+            Autoformatting with gofmt + zls
+
+            [skip ci]
