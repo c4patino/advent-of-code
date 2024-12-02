@@ -74,6 +74,10 @@ func main() {
 		secondCol = append(secondCol, input[1])
 	}
 
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
 	answer := Part1(firstCol, secondCol)
 	fmt.Println(answer)
 
