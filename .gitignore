@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/direnv,go
-# Edit at https://www.toptal.com/developers/gitignore?templates=direnv,go
+# Created by https://www.toptal.com/developers/gitignore/api/direnv,go,zig
+# Edit at https://www.toptal.com/developers/gitignore?templates=direnv,go,zig
 
 ### direnv ###
 .direnv
@@ -28,5 +28,14 @@
 # Go workspace file
 go.work
 
-# End of https://www.toptal.com/developers/gitignore/api/direnv,go
+### zig ###
+# Zig programming language
+
+.zig-cache/
+.zig-out/
+build/
+build-*/
+docgen_tmp/
+
+# End of https://www.toptal.com/developers/gitignore/api/direnv,go,zig
 
