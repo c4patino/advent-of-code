@@ -1,4 +1,4 @@
-name: gofmt + zls
+name: gofmt
 
 on:
   push:
@@ -23,12 +23,10 @@ jobs:
         uses: actions/setup-go@v5
       - name: Format all go files
         run: (cd ./2024/go/ && go fmt ./...)
-      - name: Format all go files
-        run: (cd ./2024/zig/ && zig fmt .)
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           commit_message: |
-            Autoformatting with gofmt + zls
+            Autoformatting with gofmt
 
             [skip ci]
