@@ -7,7 +7,13 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 )
+
+type sharedResource struct {
+	resource int
+	mutex    sync.Mutex
+}
 
 func reorderPages(rules [][]int, update []int) []int {
 	dependents := make(map[int][]int)
@@ -37,7 +43,6 @@ func reorderPages(rules [][]int, update []int) []int {
 		}
 	}
 
-	// Process the queue
 	for len(queue) > 0 {
 		page := queue[0]
 		queue = queue[1:]
@@ -64,70 +69,80 @@ func reorderPages(rules [][]int, update []int) []int {
 	return ordered
 }
 
-func Part1(rules, updates [][]int) int {
-	middleSum := 0
-
-	for _, update := range updates {
-		pageIndex := make(map[int]int)
-		for i, num := range update {
-			pageIndex[num] = i
-		}
-
-		failed := false
-		for _, rule := range rules {
-			pageA, pageB := rule[0], rule[1]
-
-			indexA, existsA := pageIndex[pageA]
-			indexB, existsB := pageIndex[pageB]
-
-			if existsA && existsB && indexA > indexB {
-				failed = true
-				break
-			}
-		}
-
-		if failed {
-			continue
-		}
-
-		middleSum += update[len(update)/2]
+func determineFailure(rules [][]int, update []int) bool {
+	pageIndex := make(map[int]int)
+	for i, num := range update {
+		pageIndex[num] = i
 	}
 
-	return middleSum
+	failed := false
+	for _, rule := range rules {
+		pageA, pageB := rule[0], rule[1]
+
+		indexA, existsA := pageIndex[pageA]
+		indexB, existsB := pageIndex[pageB]
+
+		if existsA && existsB && indexA > indexB {
+			failed = true
+			break
+		}
+	}
+
+	return failed
+}
+
+func Part1(rules, updates [][]int) int {
+	var wg sync.WaitGroup
+	middleSum := sharedResource{resource: 0, mutex: sync.Mutex{}}
+
+	for _, update := range updates {
+		wg.Add(1)
+
+		go func(update []int) {
+			defer wg.Done()
+
+			failed := determineFailure(rules, update)
+			if failed {
+				return
+			}
+
+			middleSum.mutex.Lock()
+			middleSum.resource += update[len(update)/2]
+			middleSum.mutex.Unlock()
+		}(update)
+	}
+
+	wg.Wait()
+
+	return middleSum.resource
 }
 
 func Part2(rules, updates [][]int) int {
-	middleSum := 0
+	var wg sync.WaitGroup
+	middleSum := sharedResource{resource: 0, mutex: sync.Mutex{}}
 
 	for _, update := range updates {
-		pageIndex := make(map[int]int)
-		for i, num := range update {
-			pageIndex[num] = i
-		}
+		wg.Add(1)
 
-		failed := false
-		for _, rule := range rules {
-			pageA, pageB := rule[0], rule[1]
+		go func(update []int) {
+			defer wg.Done()
 
-			indexA, existsA := pageIndex[pageA]
-			indexB, existsB := pageIndex[pageB]
-
-			if existsA && existsB && indexA > indexB {
-				failed = true
-				break
+			failed := determineFailure(rules, update)
+			if !failed {
+				return
 			}
-		}
 
-		if !failed {
-			continue
-		}
+			fixedUpdate := reorderPages(rules, update)
 
-		fixedUpdate := reorderPages(rules, update)
-
-		middleSum += fixedUpdate[len(fixedUpdate)/2]
+			middleSum.mutex.Lock()
+			middleSum.resource += fixedUpdate[len(fixedUpdate)/2]
+			middleSum.mutex.Unlock()
+		}(update)
 	}
 
-	return middleSum
+	wg.Wait()
+
+	return middleSum.resource
 }
 
 func main() {
@@ -150,7 +165,6 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-
 		if line == "" {
 			continue
 		}
