@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	"time"
 )
 
 var transformations = map[Direction]func(loc Location) Location{
@@ -137,6 +136,7 @@ func Part2(grid [][]string, initial Location) int {
 
 	go func() {
 		defer close(res)
+
 		wg.Wait()
 	}()
 
@@ -191,7 +191,6 @@ func main() {
 	answer := Part1(grid, initialLocation)
 	fmt.Println(answer)
 
-	start := time.Now()
 	answer = Part2(grid, initialLocation)
-	fmt.Println(answer, time.Since(start))
+	fmt.Println(answer)
 }
