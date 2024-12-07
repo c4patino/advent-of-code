@@ -56,7 +56,7 @@ func checkLoop(grid [][]string, initial, obstruction Location) bool {
 
 	direction := NORTH
 	loc := initial
-	for loc.X >= 0 && loc.X < len(grid[0]) && loc.Y >= 0 && loc.Y < len(grid) {
+	for true {
 		for _, dir := range visited[loc.Y][loc.X] {
 			if dir == direction {
 				return true
@@ -89,11 +89,11 @@ func Part1(grid [][]string, initial Location) int {
 
 	direction := NORTH
 	loc := initial
-	for loc.X >= 0 && loc.X < len(grid[0]) && loc.Y >= 0 && loc.Y < len(grid) {
+	for true {
 		visited[loc.Y][loc.X] = true
 
-		newLoc := transformations[direction](loc)
-		if newLoc.X < 0 || newLoc.X >= len(grid[0]) || newLoc.Y < 0 || newLoc.Y >= len(grid) {
+		newLoc, status := applyTransform(loc, direction, grid)
+		if !status {
 			break
 		}
 
@@ -121,22 +121,46 @@ func Part2(grid [][]string, initial Location) int {
 	var wg sync.WaitGroup
 	res := make(chan bool)
 
+	visited := make([][]bool, len(grid))
+	for i := range visited {
+		visited[i] = make([]bool, len(grid[0]))
+	}
+
+	direction := NORTH
+	loc := initial
+	for true {
+		visited[loc.Y][loc.X] = true
+
+		newLoc, status := applyTransform(loc, direction, grid)
+		if !status {
+			break
+		}
+
+		if grid[newLoc.Y][newLoc.X] == "#" {
+			newLoc = loc
+			direction = turnRight(direction)
+		}
+
+		loc = newLoc
+	}
+
 	for row := range grid {
 		for col := range grid[row] {
+			if !visited[row][col] {
+				continue
+			}
+
 			wg.Add(1)
 
 			go func(row, col int) {
 				defer wg.Done()
-
-				isLoop := checkLoop(grid, initial, Location{X: col, Y: row})
-				res <- isLoop
+				res <- checkLoop(grid, initial, Location{X: col, Y: row})
 			}(row, col)
 		}
 	}
 
 	go func() {
 		defer close(res)
-
 		wg.Wait()
 	}()
 
