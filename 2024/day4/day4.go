@@ -1,9 +1,7 @@
-package main
+package day4
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"os"
 	"strings"
 )
@@ -132,15 +130,7 @@ func Part2(text [][]string) int {
 	return count
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -159,9 +149,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(text)
-	fmt.Println(answer)
+	part1 := Part1(text)
+	part2 := Part2(text)
 
-	answer = Part2(text)
-	fmt.Println(answer)
+	return part1, part2
 }

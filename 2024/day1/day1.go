@@ -1,9 +1,7 @@
-package main
+package day1
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"math"
 	"os"
 	"slices"
@@ -37,15 +35,7 @@ func Part2(firstCol []int, secondCol []int) int {
 	return sum
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -78,9 +68,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(firstCol, secondCol)
-	fmt.Println(answer)
+	part1 := Part1(firstCol, secondCol)
+	part2 := Part2(firstCol, secondCol)
 
-	answer = Part2(firstCol, secondCol)
-	fmt.Println(answer)
+	return part1, part2
 }

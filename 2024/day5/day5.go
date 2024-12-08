@@ -1,9 +1,7 @@
-package main
+package day5
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -145,15 +143,7 @@ func Part2(rules, updates [][]int) int {
 	return middleSum.resource
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -200,9 +190,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(rules, updates)
-	fmt.Println(answer)
+	part1 := Part1(rules, updates)
+	part2 := Part2(rules, updates)
 
-	answer = Part2(rules, updates)
-	fmt.Println(answer)
+	return part1, part2
 }

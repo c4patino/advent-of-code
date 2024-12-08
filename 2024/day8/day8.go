@@ -1,9 +1,7 @@
-package main
+package day8
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"os"
 )
 
@@ -54,11 +52,10 @@ func Part2(grid map[rune][]Point, rows, cols int) int {
 		for i := 0; i < len(antennas); i++ {
 			for j := i + 1; j < len(antennas); j++ {
 				a1, a2 := antennas[i], antennas[j]
+				dx, dy := a2.x-a1.x, a2.y-a1.y
 
 				antinodes[a1] = true
 				antinodes[a2] = true
-
-				dx, dy := a2.x-a1.x, a2.y-a1.y
 
 				forward := Point{a1.x - dx, a1.y - dy}
 				for isValid(forward, rows, cols) {
@@ -78,15 +75,7 @@ func Part2(grid map[rune][]Point, rows, cols int) int {
 	return len(antinodes)
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -113,9 +102,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(grid, rows, cols)
-	fmt.Println(answer)
+	part1 := Part1(grid, rows, cols)
+	part2 := Part2(grid, rows, cols)
 
-	answer = Part2(grid, rows, cols)
-	fmt.Println(answer)
+	return part1, part2
 }

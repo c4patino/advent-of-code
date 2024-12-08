@@ -1,8 +1,7 @@
-package main
+package day3
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"os"
 	"regexp"
@@ -32,7 +31,6 @@ func (q *Queue[T]) Peek() T {
 }
 
 func Part1(text string) int {
-	// Regex to match mul(x, y)
 	mulRe := regexp.MustCompile(`(?i)mul\((\d+),(\d+)\)`)
 	mulReMatches := mulRe.FindAllStringIndex(text, -1)
 
@@ -55,38 +53,40 @@ func Part1(text string) int {
 }
 
 func Part2(text string) int {
-	// Regex to match mul(x, y)
 	mulRe := regexp.MustCompile(`(?i)mul\((\d+),(\d+)\)`)
 	mulReMatches := mulRe.FindAllStringIndex(text, -1)
 
-	// Regex to match do quoted strings
 	doRe := regexp.MustCompile("(?i)do\\(\\)")
-	doQueue := Queue[int]{}
-	for _, match := range doRe.FindAllStringIndex(text, -1) {
-		doQueue.Enqueue(match[0])
-	}
+	doReMatches := doRe.FindAllStringIndex(text, -1)
 
-	// Regex to match do quoted strings
 	dontRe := regexp.MustCompile("(?i)don't\\(\\)")
-	dontQueue := Queue[int]{}
-	for _, match := range dontRe.FindAllStringIndex(text, -1) {
-		dontQueue.Enqueue(match[0])
-	}
+	dontReMatches := dontRe.FindAllStringIndex(text, -1)
 
+	lastDoIndex := 0
+	lastDontIndex := 0
 	result := 0
 	for _, match := range mulReMatches {
-		// Find the last instance of do before the current match
-		for !doQueue.IsEmpty() && doQueue.Peek() < match[0] {
-			_ = doQueue.Dequeue()
+		lastDo := -1
+		for i := lastDoIndex; i < len(doReMatches); i++ {
+			m := doReMatches[i]
+			if match[0] < m[0] {
+				break
+			}
+			lastDo = m[0]
+			lastDoIndex = i
 		}
 
-		// Find the last instance of don't before the current match
-		for !dontQueue.IsEmpty() && dontQueue.Peek() < match[0] {
-			_ = dontQueue.Dequeue()
+		lastDont := -1
+		for i := lastDontIndex; i < len(dontReMatches); i++ {
+			m := dontReMatches[i]
+			if match[0] < m[0] {
+				break
+			}
+			lastDont = m[0]
+			lastDontIndex = i
 		}
 
-		// If the previous don't is after the previous do, skip this match
-		if !dontQueue.IsEmpty() && !doQueue.IsEmpty() && dontQueue.Peek() < doQueue.Peek() {
+		if lastDont > lastDo {
 			continue
 		}
 
@@ -105,15 +105,7 @@ func Part2(text string) int {
 	return result
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -130,9 +122,9 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(text)
-	fmt.Println(answer)
+	part1 := Part1(text)
 
-	answer = Part2(text)
-	fmt.Println(answer)
+	part2 := Part2(text)
+
+	return part1, part2
 }

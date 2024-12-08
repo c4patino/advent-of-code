@@ -1,9 +1,7 @@
-package main
+package day6
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"os"
 	"sync"
 )
@@ -174,15 +172,7 @@ func Part2(grid [][]string, initial Location) int {
 	return total
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -212,9 +202,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(grid, initialLocation)
-	fmt.Println(answer)
+	part1 := Part1(grid, initialLocation)
+	part2 := Part2(grid, initialLocation)
 
-	answer = Part2(grid, initialLocation)
-	fmt.Println(answer)
+	return part1, part2
 }

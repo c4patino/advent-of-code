@@ -1,9 +1,7 @@
-package main
+package day7
 
 import (
 	"bufio"
-	"flag"
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -116,15 +114,7 @@ func Part2(equations []Equation) int {
 	return sum
 }
 
-func main() {
-	flag.Parse()
-
-	if len(flag.Args()) == 0 {
-		panic("Please provide a filename")
-	}
-
-	filename := flag.Args()[0]
-
+func Run(filename string) (int, int) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
@@ -161,9 +151,8 @@ func main() {
 		panic(err)
 	}
 
-	answer := Part1(equations)
-	fmt.Println(answer)
+	part1 := Part1(equations)
+	part2 := Part2(equations)
 
-	answer = Part2(equations)
-	fmt.Println(answer)
+	return part1, part2
 }

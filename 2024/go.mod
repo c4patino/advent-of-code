@@ -1,3 +1,3 @@
-module cpatino.com/advent-of-code
+module cpatino.com/advent-of-code/2024
 
 go 1.23.3
