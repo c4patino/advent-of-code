@@ -33,19 +33,22 @@ func calculateChecksum(blocks []Block) int {
 }
 
 func mergeBlocks(blocks []Block) []Block {
-	merged := []Block{}
+	if len(blocks) == 0 {
+		return blocks
+	}
+
+	merged := blocks[:0]
 	for _, block := range blocks {
 		if block.id != nil {
 			merged = append(merged, block)
 			continue
 		}
 
-		if merged[len(merged)-1].id == nil {
+		if len(merged) > 0 && merged[len(merged)-1].id == nil {
 			merged[len(merged)-1].size += block.size
-			continue
+		} else {
+			merged = append(merged, block)
 		}
-
-		merged = append(merged, block)
 	}
 
 	return merged
