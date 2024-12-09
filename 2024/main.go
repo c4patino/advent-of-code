@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"cpatino.com/advent-of-code/2024/day1"
+	"cpatino.com/advent-of-code/2024/day10"
 	"cpatino.com/advent-of-code/2024/day2"
 	"cpatino.com/advent-of-code/2024/day3"
 	"cpatino.com/advent-of-code/2024/day4"
@@ -14,7 +15,21 @@ import (
 	"cpatino.com/advent-of-code/2024/day6"
 	"cpatino.com/advent-of-code/2024/day7"
 	"cpatino.com/advent-of-code/2024/day8"
+	"cpatino.com/advent-of-code/2024/day9"
 )
+
+var days = map[int]func(string) (int, int){
+	1:  day1.Run,
+	2:  day2.Run,
+	3:  day3.Run,
+	4:  day4.Run,
+	5:  day5.Run,
+	6:  day6.Run,
+	7:  day7.Run,
+	8:  day8.Run,
+	9:  day9.Run,
+	10: day10.Run,
+}
 
 func main() {
 	var fileArg = flag.String("file", "", "input filename")
@@ -37,31 +52,13 @@ func main() {
 	}
 
 	if _, err := os.Stat(inputFile); os.IsNotExist(err) {
-		fmt.Println("test file does not exist: %v", inputFile)
+		fmt.Printf("test file does not exist: %v\n", inputFile)
 		os.Exit(1)
 	}
 
 	fmt.Printf("Day: %d, Input File: %s\n", day, inputFile)
 
-	var part1, part2 int
-	switch day {
-	case 1:
-		part1, part2 = day1.Run(inputFile)
-	case 2:
-		part1, part2 = day2.Run(inputFile)
-	case 3:
-		part1, part2 = day3.Run(inputFile)
-	case 4:
-		part1, part2 = day4.Run(inputFile)
-	case 5:
-		part1, part2 = day5.Run(inputFile)
-	case 6:
-		part1, part2 = day6.Run(inputFile)
-	case 7:
-		part1, part2 = day7.Run(inputFile)
-	case 8:
-		part1, part2 = day8.Run(inputFile)
-	}
+	part1, part2 := days[day](inputFile)
 
 	fmt.Printf("Part 1: %d\n", part1)
 	fmt.Printf("Part 2: %d\n", part2)
