@@ -7,34 +7,33 @@ import (
 	"strconv"
 
 	"cpatino.com/advent-of-code/2024/cmd/generate"
-	"cpatino.com/advent-of-code/2024/cmd/submit"
 	"github.com/spf13/cobra"
 
-	"cpatino.com/advent-of-code/2024/day1"
+	"cpatino.com/advent-of-code/2024/day01"
+	"cpatino.com/advent-of-code/2024/day02"
+	"cpatino.com/advent-of-code/2024/day03"
+	"cpatino.com/advent-of-code/2024/day04"
+	"cpatino.com/advent-of-code/2024/day05"
+	"cpatino.com/advent-of-code/2024/day06"
+	"cpatino.com/advent-of-code/2024/day07"
+	"cpatino.com/advent-of-code/2024/day08"
+	"cpatino.com/advent-of-code/2024/day09"
 	"cpatino.com/advent-of-code/2024/day10"
 	"cpatino.com/advent-of-code/2024/day11"
-	"cpatino.com/advent-of-code/2024/day2"
-	"cpatino.com/advent-of-code/2024/day3"
-	"cpatino.com/advent-of-code/2024/day4"
-	"cpatino.com/advent-of-code/2024/day5"
-	"cpatino.com/advent-of-code/2024/day6"
-	"cpatino.com/advent-of-code/2024/day7"
-	"cpatino.com/advent-of-code/2024/day8"
-	"cpatino.com/advent-of-code/2024/day9"
 )
 
 var days = map[int]func(string) (int, int){
-	1:  day1.Run,
+	1:  day01.Run,
+	2:  day02.Run,
+	3:  day03.Run,
+	4:  day04.Run,
+	5:  day05.Run,
+	6:  day06.Run,
+	7:  day07.Run,
+	8:  day08.Run,
+	9:  day09.Run,
 	10: day10.Run,
 	11: day11.Run,
-	2:  day2.Run,
-	3:  day3.Run,
-	4:  day4.Run,
-	5:  day5.Run,
-	6:  day6.Run,
-	7:  day7.Run,
-	8:  day8.Run,
-	9:  day9.Run,
 }
 
 var rootCmd = &cobra.Command{
@@ -49,7 +48,7 @@ var rootCmd = &cobra.Command{
 
 		file, _ := cmd.Flags().GetString("file")
 		if file == "" {
-			file = fmt.Sprintf("./day%d/input.txt", day)
+			file = fmt.Sprintf("./day%02d/input.txt", day)
 		}
 
 		if _, err := os.Stat(file); os.IsNotExist(err) {
@@ -67,7 +66,6 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(generate.GenerateCmd)
-	rootCmd.AddCommand(submit.SubmitCmd)
 	rootCmd.Flags().String("file", "", "Path to a file")
 }
 

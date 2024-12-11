@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -19,7 +21,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"cpatino.com/advent-of-code/2024/cmd/generate"
-	"cpatino.com/advent-of-code/2024/cmd/submit"
 
 	%s
 )
@@ -40,7 +41,7 @@ var rootCmd = &cobra.Command{
 
 		file, _ := cmd.Flags().GetString("file")
 		if file == "" {
-			file = fmt.Sprintf("./day%%d/input.txt", day)
+			file = fmt.Sprintf("./day%%02d/input.txt", day)
 		}
 
 		if _, err := os.Stat(file); os.IsNotExist(err) {
@@ -58,7 +59,6 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(generate.GenerateCmd)
-	rootCmd.AddCommand(submit.SubmitCmd)
 	rootCmd.Flags().String("file", "", "Path to a file")
 }
 
@@ -85,11 +85,15 @@ func Execute() error {
 			return nil
 		}
 
-		dayStr := info.Name()
-		dayNum := strings.TrimPrefix(dayStr, "day")
+		dayStr := strings.TrimPrefix(info.Name(), "day")
 
-		imports.WriteString(fmt.Sprintf("\t\"cpatino.com/advent-of-code/2024/%s\"\n", dayStr))
-		mappings.WriteString(fmt.Sprintf("\t%s: %s.Run,\n", dayNum, dayStr))
+		day, err := strconv.Atoi(dayStr)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		imports.WriteString(fmt.Sprintf("\t\"cpatino.com/advent-of-code/2024/day%02d\"\n", day))
+		mappings.WriteString(fmt.Sprintf("\t%d: day%02d.Run,\n", day, day))
 
 		return nil
 	})
