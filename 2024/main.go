@@ -8,6 +8,7 @@ import (
 
 	"cpatino.com/advent-of-code/2024/day1"
 	"cpatino.com/advent-of-code/2024/day10"
+	"cpatino.com/advent-of-code/2024/day11"
 	"cpatino.com/advent-of-code/2024/day2"
 	"cpatino.com/advent-of-code/2024/day3"
 	"cpatino.com/advent-of-code/2024/day4"
@@ -29,6 +30,7 @@ var days = map[int]func(string) (int, int){
 	8:  day8.Run,
 	9:  day9.Run,
 	10: day10.Run,
+	11: day11.Run,
 }
 
 func main() {
