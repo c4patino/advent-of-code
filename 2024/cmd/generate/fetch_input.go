@@ -9,8 +9,6 @@ import (
 	"os"
 )
 
-// https://adventofcode.com/2024/day/{day}/answer
-
 func retrieveInput(day int) error {
 	cookieValue := os.Getenv("COOKIE")
 	if cookieValue == "" {
@@ -47,7 +45,7 @@ func retrieveInput(day int) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return errors.New(fmt.Sprintf("Unexpected status code: %d\nBody: %s", resp.StatusCode, string(body)))
+		return errors.New(fmt.Sprintf("Unexpected status code: %d\n%s", resp.StatusCode, string(body)))
 	}
 
 	filename := fmt.Sprintf("./day%02d/input.txt", day)
