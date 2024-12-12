@@ -20,6 +20,7 @@ import (
 	"cpatino.com/advent-of-code/2024/day09"
 	"cpatino.com/advent-of-code/2024/day10"
 	"cpatino.com/advent-of-code/2024/day11"
+	"cpatino.com/advent-of-code/2024/day12"
 )
 
 var days = map[int]func(string) (int, int){
@@ -34,6 +35,7 @@ var days = map[int]func(string) (int, int){
 	9:  day09.Run,
 	10: day10.Run,
 	11: day11.Run,
+	12: day12.Run,
 }
 
 var rootCmd = &cobra.Command{
