@@ -26,7 +26,7 @@ var GenerateCmd = &cobra.Command{
 
 		folder := fmt.Sprintf("./day%02d", day)
 		if err := os.Mkdir(folder, 0755); err != nil {
-			handleErr(err, folder)
+			log.Fatal(err)
 		}
 
 		if err := generateMainCode(day); err != nil {

@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-var mainCodeTemplate = `package day%02d
+const mainCodeTemplate = `package day%02d
 
 import (
 	"bufio"

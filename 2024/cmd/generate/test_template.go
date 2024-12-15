@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-var testCodeTemplate = `package day%02d
+const testCodeTemplate = `package day%02d
 
 import (
 	"os"
