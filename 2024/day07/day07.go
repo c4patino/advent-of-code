@@ -114,7 +114,7 @@ func Part2(equations []Equation) int {
 	return sum
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

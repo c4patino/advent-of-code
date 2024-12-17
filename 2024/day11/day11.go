@@ -83,7 +83,7 @@ func Part2(stones []int, steps int) int {
 	return Part1(stones, steps)
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

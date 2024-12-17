@@ -131,7 +131,7 @@ func Part2(robots []Robot, xMax, yMax int) int {
 	return -1
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

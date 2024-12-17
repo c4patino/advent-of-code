@@ -75,7 +75,7 @@ func Part2(grid map[rune][]Point, rows, cols int) int {
 	return len(antinodes)
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

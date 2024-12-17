@@ -143,7 +143,7 @@ func Part2(rules, updates [][]int) int {
 	return middleSum.resource
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

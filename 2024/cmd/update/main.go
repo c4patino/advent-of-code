@@ -25,7 +25,7 @@ import (
 	%s
 )
 
-var days = map[int]func(string) (int, int){
+var days = map[int]func(string) (interface{}, interface{}){
 	%s
 }
 
@@ -52,8 +52,8 @@ var rootCmd = &cobra.Command{
 
 		part1, part2 := days[day](file)
 
-		log.Printf("Part 1: %%d\n", part1)
-		log.Printf("Part 2: %%d\n", part2)
+		log.Printf("Part 1: %%v\n", part1)
+		log.Printf("Part 2: %%v\n", part2)
 	},
 }
 

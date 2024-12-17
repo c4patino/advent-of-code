@@ -151,7 +151,7 @@ func Part2(grid [][]rune, initial, end image.Point) int {
 
 var globalScores map[State]int
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

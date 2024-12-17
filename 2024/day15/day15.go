@@ -215,7 +215,7 @@ func parseLarge(file *os.File) ([][]Object, image.Point, []Direction) {
 	return grid, position, movements
 }
 
-func Run(filename string) (int, int) {
+func Run(filename string) (interface{}, interface{}) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
