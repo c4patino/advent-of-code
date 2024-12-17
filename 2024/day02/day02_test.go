@@ -5,40 +5,30 @@ import (
 	"testing"
 )
 
-func TestDay2(t *testing.T) {
-	filename := "test.txt"
-	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		t.Fatalf("test file does not exist: %v", filename)
-	}
-
-	part1, part2 := Run(filename)
-
-	expectedPart1 := 2
-	if part1 != expectedPart1 {
-		t.Fatalf("unexpected part1:\nwant:\t%d\ngot:\t%d", expectedPart1, part1)
-	}
-
-	expectedPart2 := 4
-	if part2 != expectedPart2 {
-		t.Fatalf("unexpected part2:\nwant:\t%d\ngot:\t%d", expectedPart2, part2)
-	}
+type TestCase struct {
+	FileName string
+	Part1    interface{}
+	Part2    interface{}
 }
 
-func TestDay2Solution(t *testing.T) {
-	filename := "input.txt"
-	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		t.Fatalf("test file does not exist: %v", filename)
+func TestDay2(t *testing.T) {
+	tests := []TestCase{
+		{"test.txt", 2, 4},
+		{"input.txt", 663, 692},
 	}
 
-	part1, part2 := Run(filename)
+	for _, test := range tests {
+		if _, err := os.Stat(test.FileName); os.IsNotExist(err) {
+			t.Fatalf("test file does not exist: %v", test.FileName)
+		}
 
-	expectedPart1 := 663
-	if part1 != expectedPart1 {
-		t.Fatalf("unexpected part1:\nwant:\t%d\ngot:\t%d", expectedPart1, part1)
-	}
+		part1, part2 := Run(test.FileName)
+		if test.Part1 != nil && part1 != test.Part1 {
+			t.Fatalf("%s: unexpected part1:\nwant:\t%v\ngot:\t%v", test.FileName, test.Part1, part1)
+		}
 
-	expectedPart2 := 692
-	if part2 != expectedPart2 {
-		t.Fatalf("unexpected part2:\nwant:\t%d\ngot:\t%d", expectedPart2, part2)
+		if test.Part2 != nil && part2 != test.Part2 {
+			t.Fatalf("%s: unexpected part2:\nwant:\t%v\ngot:\t%v", test.FileName, test.Part2, part2)
+		}
 	}
 }
