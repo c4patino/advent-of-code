@@ -59,7 +59,7 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Day01, Day02
+    exposed-modules:  Day01, Day02, Day03
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -68,7 +68,7 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.19.2.0
+    build-depends:    base ^>=4.19.2.0, containers
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -90,8 +90,7 @@ executable aoc2023
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:
-        base ^>=4.19.2.0,
+    build-depends: base ^>=4.19.2.0,
         aoc2023
 
     -- Directories containing source files.
@@ -108,7 +107,7 @@ test-suite aoc2023-test
     default-language: Haskell2010
 
     -- Modules included in this executable, other than Main.
-    other-modules:	  Common.Tests, Day01Spec, Day02Spec
+    other-modules:	  Common.Tests, Day01Spec, Day02Spec, Day03Spec
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

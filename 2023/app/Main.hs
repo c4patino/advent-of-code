@@ -2,6 +2,7 @@ module Main where
 
 import qualified Day01
 import qualified Day02
+import qualified Day03
 import System.Console.GetOpt
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
@@ -31,6 +32,9 @@ runDay 1 filename = do
   return (show a, show b)
 runDay 2 filename = do
   (a, b) <- Day02.run filename
+  return (show a, show b)
+runDay 3 filename = do
+  (a, b) <- Day03.run filename
   return (show a, show b)
 runDay _ _ = return ("Not implemented", "Not implemented")
 
