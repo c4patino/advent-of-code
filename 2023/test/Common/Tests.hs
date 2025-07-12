@@ -1,4 +1,4 @@
-module Common.Tests where
+module Common.Tests (TestCase (..), mkPartSpec) where
 
 import Test.Hspec
 
